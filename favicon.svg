@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Retro music player</title>
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="#262c36" stroke="#8994a6" stroke-width="2"/>
+  <rect x="9" y="10" width="46" height="29" rx="3" fill="#101713"/>
+  <path d="M15 33V25M23 33V18M31 33V23M39 33V15M47 33V21" fill="none" stroke="#a9f56c" stroke-width="5"/>
+  <path d="M12 45L12 55L21 50Z" fill="#a9f56c"/>
+  <path d="M28 50H51" stroke="#8994a6" stroke-width="3" stroke-linecap="round"/>
+  <rect x="35" y="46" width="4" height="8" rx="1" fill="#e4e9f0"/>
+</svg>

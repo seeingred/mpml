@@ -1,4 +1,4 @@
-# My music player journey
+# Music, over time
 
 Play the bundled Chaoz Fantasy demo, or choose a local song and move through eleven desktop music players as it plays.
 
@@ -9,6 +9,8 @@ All eleven players use real screenshots with live SVG overlays fitted to their n
 Run `python3 -m http.server 8766 --bind localhost` from this directory and open http://localhost:8766. No build or dependencies are needed. User-selected songs stay in the browser and are never uploaded. The demo MP3 is served with the site; it needs no account or external music service. See [MUSIC-CREDITS.md](MUSIC-CREDITS.md) for its attribution and license.
 
 The first screen leads with the song picker, followed by a subtle “or play demo” text option. The demo starts in one click. Play reveals the player, subtle caption and year timeline. Eleven landmarks are spaced evenly over the song; seeking moves the music, crossfade, and window geometry together. Dragging the timeline pauses audio until release and the final seek finishes, then resumes only if it was playing before. Keyboard seeking follows the same behavior. Pausing freezes the transition and updates the embedded playback indicator. Replay returns to Winamp 2. Space toggles playback; reduced motion shows the nearest player without blending.
+
+The page follows the system light or dark theme automatically, including the timeline and controls. The favicon is a small retro player with a green equalizer. Original player screenshots keep their original colors.
 
 The year labels are preserved: 1998, 2002, 2003, 2004, 2006, 2008, 2010, 2011, 2015, 2019, 2020. Screenshot dates may differ. See [SCREENSHOT-SOURCES.md](SCREENSHOT-SOURCES.md) for every original source, version limitation, attribution, and license note.
 
