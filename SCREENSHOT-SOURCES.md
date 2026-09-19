@@ -1,8 +1,8 @@
-# Screenshot sources — local experiment
+# Screenshot sources
 
 All eleven assets in `assets/real/` are downloaded screenshots. The files are preserved byte-for-byte. SVG crops remove the desktop around Winamp 2 and Apple Music. Runtime SVG patches replace current-track text, clocks, progress, and playback icons; original library content and other artwork remain visible. These composites are adaptations, not untouched screenshots.
 
-The timeline years describe the remembered journey and were deliberately kept as requested. Screenshot versions do not always match those dates. The original generated assets remain in `assets/` and are used by `main`, not this branch.
+The timeline years describe the remembered journey and were deliberately kept as requested. Screenshot versions do not always match those dates. The original generated assets remain in `assets/`, unused by the published screenshot version.
 
 | Player | Original pixels | Source / attribution | Version notes |
 |---|---|---|---|
@@ -23,7 +23,7 @@ The timeline years describe the remembered journey and were deliberately kept as
 - **iTunes 7:** “iTunes 7 screenshot,” Seth Anderson / [swanksalot](https://www.flickr.com/photos/swanksalot/242434888/), September 13, 2006. [CC BY-NC-SA 2.0](https://creativecommons.org/licenses/by-nc-sa/2.0/). The screenshot and adaptations of it are subject to that license; this includes its noncommercial and share-alike conditions. Runtime alterations: title, elapsed/remaining time, progress track, and transport icon.
 - **Rhythmbox:** Victor Lozano, [Commons file page](https://commons.wikimedia.org/wiki/File:Rhythmbox_0.11.5_on_ubuntu.png), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) (also offered under GFDL). Runtime alterations: current title, title bar state, selected row, progress, time, and transport icon. Adaptations of the screenshot retain CC BY-SA 3.0.
 - **amaroK:** AVRS, [Commons file page](https://commons.wikimedia.org/wiki/File:Amarok_1.4.9_en_1_alb.png), Debian lenny/sid, August 9, 2008. The author claims no screenshot copyright and identifies component licenses: Amarok [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html); Crystal icons LGPL where applicable; EVA MARIA (Eva Ramirez Santana), *A Mis Hermanos* cover, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) at capture time. Commons notes that the album page later changed license/artwork. Runtime changes cover current playback text, clock, progress, and transport icon.
-- **Other screenshots:** retain the original software, artwork, and publisher copyrights. Source attribution is recorded here; no blanket redistribution license is asserted. This branch is a local visual experiment and has not been published.
+- **Other screenshots:** retain the original software, artwork, and publisher copyrights. Source attribution is recorded here; no blanket redistribution license is asserted.
 
 ## Known visual compromises
 
