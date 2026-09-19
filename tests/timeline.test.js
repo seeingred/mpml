@@ -51,3 +51,16 @@ test('invalid durations, one player, short songs and negative time are safe', ()
   assert.equal(timelineFrame(0.95, 1, 11).index, 9);
   assert.deepEqual(timelineFrame(5, 10, 1), { index: 0, next: 0, blend: 0, progress: 0.5 });
 });
+
+// The final stop must remain reachable after adding a player to the journey.
+test('the twelve-stop journey ends on Spotify 2026 and blends into it', () => {
+  const { PLAYERS } = require('../players.js');
+  assert.equal(PLAYERS.length, 12);
+  const end = timelineFrame(220, 220, PLAYERS.length);
+  assert.equal(PLAYERS[end.index].id, '12-spotify-2026');
+  assert.equal(end.next, end.index);
+  const midway = timelineFrame(210, 220, PLAYERS.length);
+  assert.equal(PLAYERS[midway.index].id, '11-spotify');
+  assert.equal(PLAYERS[midway.next].id, '12-spotify-2026');
+  close(midway.blend, .5);
+});

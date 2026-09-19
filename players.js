@@ -263,6 +263,30 @@ const PLAYERS = [
     "source": "https://newsroom.spotify.com/2021-03-25/introducing-a-new-spotify-experience-across-desktop-app-and-web-player/",
     "original": "https://storage.googleapis.com/pr-newsroom-wp/1/2021/03/After-downloaded-music-Playlist-2.png",
     "note": "Official Spotify 2021 desktop redesign, one year later than the timeline label."
+  },
+  {
+    "id": "12-spotify-2026",
+    "name": "Spotify",
+    "image": "assets/real/12-spotify-2026.png",
+    "dimensions": [
+      3354,
+      2166
+    ],
+    "crop": [
+      0,
+      0,
+      3354,
+      2166
+    ],
+    "bounds": [
+      63.443,
+      57.0,
+      1409.114,
+      910.0
+    ],
+    "source": "Owner-provided screenshot, September 19, 2026",
+    "original": "Screenshot 2026-09-19 at 23.05.35.png",
+    "note": "Spotify for macOS, captured by the site owner on September 19, 2026. Original 3354 × 2166 screenshot; exact app version not recorded."
   }
 ];
 if (typeof module !== 'undefined') module.exports = { PLAYERS };

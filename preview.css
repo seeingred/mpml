@@ -32,7 +32,7 @@ main { min-height: 100svh; display: grid; place-items: center; padding: 24px; }
 .start { border: 0; color: var(--button-text); background: var(--button-bg); padding: 12px 35px; border-radius: 24px; }
 .start:disabled { opacity: .35; cursor: wait; }
 .journey { width: min(1120px, 100%, calc((100svh - 200px) * 1.5)); }
-.stage { width: 100%; aspect-ratio: 3 / 2; position: relative; isolation: isolate; container-type: inline-size; overflow: hidden; }
+.stage { display: block; padding: 0; border: 0; background: none; width: 100%; aspect-ratio: 3 / 2; position: relative; isolation: isolate; container-type: inline-size; overflow: hidden; }
 .player-layer { position: absolute; inset: 0; opacity: 0; pointer-events: none; transform-origin: 0 0; }
 .player-layer { background: var(--page); }
 .player-surface { position: absolute; }

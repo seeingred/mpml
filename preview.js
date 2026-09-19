@@ -17,16 +17,16 @@ let currentCaption = -1;
 let visibleLayers = [];
 
 // Approximate eras, including the owner's corrected Linux and iTunes dates.
-const YEARS = ['1998', '2002', '2003', '2004', '2006', '2008', '2010', '2011', '2015', '2019', '2020'];
+const YEARS = ['1998', '2002', '2003', '2004', '2006', '2008', '2010', '2011', '2015', '2019', '2020', '2026'];
 
 // Each screenshot has its own native aspect ratio and fitted stage bounds.
 const WINDOW_BOUNDS = PLAYERS.map(player => player.bounds);
 
 const layers = PLAYERS.map((player, index) => {
-  const layer = document.createElement('div');
+  const layer = document.createElement('span');
   layer.className = 'player-layer';
   layer.setAttribute('aria-hidden', 'true');
-  const surface = document.createElement('div');
+  const surface = document.createElement('span');
   surface.className = 'player-surface';
   const [x, y, width, height] = player.bounds;
   Object.assign(surface.style, {left:`${x/1536*100}%`,top:`${y/1024*100}%`,width:`${width/1536*100}%`,height:`${height/1024*100}%`});
@@ -99,7 +99,6 @@ function render() {
     currentCaption = caption;
     $('player-name').textContent = PLAYERS[caption].name;
     $('player-year').textContent = YEARS[caption];
-    $('stage').setAttribute('aria-label', PLAYERS[caption].name);
     layers.forEach((layer, index) => layer.year.classList.toggle('active', index === caption));
   }
   $('elapsed').textContent = formatTime(media.currentTime);
@@ -108,7 +107,9 @@ function render() {
   $('seek').value = String(Math.round(frame.progress * 1000));
   $('seek').style.setProperty('--progress', `${frame.progress * 100}%`);
   $('seek').setAttribute('aria-valuetext', `${formatTime(media.currentTime)} of ${formatTime(media.duration)}, ${PLAYERS[caption].name}`);
-  $('toggle').setAttribute('aria-label', media.ended ? 'Replay' : playing ? 'Pause' : 'Play');
+  const action = media.ended ? 'Replay' : playing ? 'Pause' : 'Play';
+  $('toggle').setAttribute('aria-label', action);
+  $('stage').setAttribute('aria-label', `${action} — ${PLAYERS[caption].name}`);
   $('toggle').firstElementChild.textContent = playing ? 'Ⅱ' : '▶';
 }
 
@@ -184,7 +185,11 @@ $('demo').addEventListener('click', () => {
 });
 
 $('start').addEventListener('click', play);
-$('toggle').addEventListener('click', () => media.paused ? play() : media.pause());
+function togglePlayback() {
+  if (media.paused) play(); else media.pause();
+}
+$('toggle').addEventListener('click', togglePlayback);
+$('stage').addEventListener('click', togglePlayback);
 const cancelScrubbing = attachScrubbing(media, $('seek'), play, render);
 media.addEventListener('loadedmetadata', () => {
   $('start').disabled = !Number.isFinite(media.duration) || media.duration <= 0;

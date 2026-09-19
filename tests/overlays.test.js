@@ -13,9 +13,10 @@ test('audio position is shared across player displays, with safe edges', () => {
   assert.equal(overlayClock(135,true), '02:15');
   assert.equal(overlayClock(6015,true), '100:15');
 });
-test('all eleven screenshots have valid crops, fitted bounds, and native overlay coordinates', () => {
-  assert.equal(PLAYER_OVERLAYS.length,11);
-  assert.equal(new Set(PLAYER_OVERLAYS.map(p=>p.id)).size,11);
+test('all twelve screenshots have valid crops, fitted bounds, and native overlay coordinates', () => {
+  assert.equal(PLAYER_OVERLAYS.length,12);
+  assert.equal(new Set(PLAYER_OVERLAYS.map(p=>p.id)).size,12);
+  assert.equal(PLAYERS.length,PLAYER_OVERLAYS.length);
   for(const p of PLAYER_OVERLAYS) {
     const player = PLAYERS.find(item => item.id === p.id);
     assert.ok(player,p.id);
