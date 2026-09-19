@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>My music player journey — asset preview</title><link rel="stylesheet" href="preview.css"></head>
+<body>
+<header><p class="eyebrow">A lifetime of pressing play</p><h1>My music player journey</h1><p>Choose a player, add your song, and try its play and pause states.</p></header>
+<main>
+<section class="setup" aria-label="Your song">
+<label>Audio file<input id="file" type="file" accept="audio/*"></label>
+<label>Song title<input id="title" placeholder="Your song title"></label>
+<label>Artist<input id="artist" placeholder="Artist name"></label>
+<p class="hint">Your file stays on your computer. Nothing is uploaded.</p>
+</section>
+<nav id="players" aria-label="Choose a player"></nav>
+<section class="preview" aria-labelledby="player-name">
+<div class="bar"><h2 id="player-name"></h2><div><button id="preview-state" type="button">Preview playing state</button><a id="download" download>Download PNG</a></div></div>
+<div class="stage" id="stage"><img id="skin" width="1536" height="1024" alt=""><div class="metadata" id="metadata"><span id="song-title"></span><small id="song-artist"></small></div><button id="hotspot" aria-label="Play" title="Play"></button></div>
+<div class="audio-row"><audio id="audio" controls preload="metadata"></audio><span id="status" role="status">Choose an audio file to play your song.</span></div>
+</section>
+<p class="footnote">AI-generated recreations, not original screenshots. Blank song fields are live HTML overlays. Both state images have white backgrounds. Historical UI details and pixel alignment are approximate. Rhythmbox represents both Ubuntu and Arch.</p>
+</main><script src="players.js"></script><script src="preview.js"></script>
+</body></html>

@@ -1,0 +1,52 @@
+{
+  "mode": "Built-in image_gen",
+  "base": "Use case: ui-mockup. Create a single high quality raster website asset: a historically recognizable desktop music player skin, straight-on 2D screenshot-style, sharp UI rendering, no perspective, no device, no desktop background, no external captions or decorative scene. Output landscape canvas approximately 1536x1024. Center the entire player window horizontally and vertically, fully visible with generous 80px minimum clear margin. Outside the window use a uniform solid pure white background (no texture, no shadow). Preserve authentic period proportions; compact players should remain compact. All song metadata must be empty: no title, artist, album, track rows, album cover, placeholder words or example song. Reserve clean blank fields for later HTML text and artwork overlays. Keep authentic fixed UI labels, application branding and menu items only. Time reads 00:00; progress zero. Do not write PLAYING or PAUSED as captions. ",
+  "players": [
+    [
+      "01-winamp-2",
+      "Winamp 2, classic default skin from around 1999. Tiny dark charcoal metallic rectangular interface, crisp thin beveled borders, tiny green segmented display, classic transport keys, orange lightning-bolt mark. Main player with matching equalizer underneath. No playlist window."
+    ],
+    [
+      "02-winamp-3",
+      "Winamp 3, original 2002 default modern skin, curving brushed-silver and dark graphite industrial interface with rounded asymmetric contours and blue details. Distinctively Winamp 3, not classic Winamp 2, not Bento. Compact main playback window only."
+    ],
+    [
+      "03-winamp-5",
+      "Winamp 5, 2003 Modern default skin (NOT later Bento): brushed silver, black central display, blue accents, rounded right-hand volume/control pod, compact horizontal main player. No library window."
+    ],
+    [
+      "04-foobar2000",
+      "foobar2000 Windows XP era around 2004, plain grey Windows classic title bar and native controls, simple menu and transport toolbar, blank track list with column headings. Austere functional rectangular layout, no artwork."
+    ],
+    [
+      "05-amarok",
+      "amaroK 1.4 on KDE 3 around 2006, blue wolf branding, light grey KDE Plastik controls, left collection browser with vertical sidebar tabs, right blank playlist table, transport controls at bottom. Classic Amarok 1.4, NOT Amarok 2."
+    ],
+    [
+      "06-rhythmbox",
+      "Rhythmbox around GNOME 3.4 in 2012, Adwaita light grey GTK interface, traditional menu bar, previous/play-pause/next toolbar across top, left sidebar Music Podcasts Radio, artist and album browser panes above an empty track table. No modern GNOME header bar."
+    ],
+    [
+      "07-itunes-7",
+      "iTunes 7.4 on Mac OS X Leopard 2007, brushed silver compact unified title bar, red yellow green traffic lights top left, circular transport controls, blank pale central LCD song display, left source sidebar and empty library table. Era accurate blue musical note on CD application icon if icon needed."
+    ],
+    [
+      "08-itunes-10",
+      "iTunes 10 from 2010, grey metallic Mac window, distinctive vertically stacked red yellow green traffic light buttons top left, muted monochrome sidebar icons, playback controls across top, empty library list and blank central track information display."
+    ],
+    [
+      "09-itunes-12",
+      "iTunes 12 circa 2015 on OS X Yosemite, flat pale grey Mac window, normal horizontal traffic lights, thin clean sans serif typography, music selector, light sidebar, blank white library, transport controls and blank now-playing display at top."
+    ],
+    [
+      "10-apple-music",
+      "Apple Music desktop app on macOS, recognizable modern LIGHT theme, red accent, horizontal Mac traffic lights, pale sidebar with Listen Now Browse Radio Library, blank white music library, playback controls in top toolbar and blank centered track information field. No promotional content."
+    ],
+    [
+      "11-spotify",
+      "Spotify desktop circa 2020 classic dark charcoal interface, black left sidebar with Spotify logo and Home Search Your Library, empty dark main library, bottom now-playing bar, centered circular play-pause button, empty album art slot on bottom left. No cards or recommendations."
+    ]
+  ],
+  "paused_edit_prompt": "Use case: precise-object-edit. Edit the supplied music player website asset to PAUSED state. This is the exact playing image of the pair. Preserve entire canvas, dimensions, window position, scale, UI geometry, colors, all text and all blank metadata regions. Change ONLY the playback toggle icon from two pause bars to a right-pointing play triangle; if there is a playing status label change it to Paused. For separate classic Winamp transport controls preserve their original symbols and change only the small green playing status indicator to two pause bars, with inactive visualizer. Absolutely no redesign, no new track text, no zoom or crop. Keep the same white background.",
+  "playing_state_instruction": "Playback state: PLAYING. Primary play/pause toggle displays pause bars; if separate transport buttons, preserve separate buttons and indicate playing. Metadata completely blank."
+}
