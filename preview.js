@@ -141,6 +141,7 @@ async function play() {
 
 function selectSong(src, title, label, isDemo) {
   selection++;
+  cancelScrubbing();
   audio.pause();
   started = false;
   demoSelected = isDemo;
@@ -174,11 +175,7 @@ $('demo').addEventListener('click', () => {
 
 $('start').addEventListener('click', play);
 $('toggle').addEventListener('click', () => audio.paused ? play() : audio.pause());
-$('seek').addEventListener('input', () => {
-  if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
-  audio.currentTime = Number($('seek').value) / 1000 * audio.duration;
-  render();
-});
+const cancelScrubbing = attachScrubbing(audio, $('seek'), play, render);
 audio.addEventListener('loadedmetadata', () => {
   $('start').disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
   if ($('start').disabled) message('This file has no usable duration. Please choose another song.');
@@ -199,6 +196,7 @@ audio.addEventListener('timeupdate', render);
 audio.addEventListener('seeking', render);
 audio.addEventListener('seeked', render);
 audio.addEventListener('error', () => {
+  cancelScrubbing();
   audio.pause();
   started = false;
   $('setup').hidden = false;
