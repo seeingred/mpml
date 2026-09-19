@@ -12,26 +12,20 @@ let visibleLayers = [];
 // Approximate eras, including the owner's corrected Linux and iTunes dates.
 const YEARS = ['1998', '2002', '2003', '2004', '2006', '2008', '2010', '2011', '2015', '2019', '2020'];
 
-// Visible window bounds in the original 1536 × 1024 assets: x, y, width, height.
-// Align both silhouettes to one evolving rectangle during each morph.
-const WINDOW_BOUNDS = [
-  [354, 197, 828, 620], [160, 294, 1214, 430], [193, 336, 1150, 350],
-  [146, 125, 1244, 755], [98, 96, 1340, 832], [133, 84, 1270, 855],
-  [73, 103, 1391, 813], [95, 95, 1348, 839], [74, 104, 1389, 800],
-  [52, 112, 1432, 800], [81, 80, 1376, 846]
-];
+// Each screenshot has its own native aspect ratio and fitted stage bounds.
+const WINDOW_BOUNDS = PLAYERS.map(player => player.bounds);
 
 const layers = PLAYERS.map((player, index) => {
   const layer = document.createElement('div');
   layer.className = 'player-layer';
   layer.setAttribute('aria-hidden', 'true');
-  const image = document.createElement('img');
-  image.alt = '';
-  image.width = 1536;
-  image.height = 1024;
-  image.src = player.paused;
-  const overlay = createPlayerOverlay(player.id);
-  layer.append(image, overlay.element);
+  const surface = document.createElement('div');
+  surface.className = 'player-surface';
+  const [x, y, width, height] = player.bounds;
+  Object.assign(surface.style, {left:`${x/1536*100}%`,top:`${y/1024*100}%`,width:`${width/1536*100}%`,height:`${height/1024*100}%`});
+  const overlay = createPlayerOverlay(player);
+  surface.append(overlay.element);
+  layer.append(surface);
   $('stage').append(layer);
 
   const tick = document.createElement('span');
@@ -43,7 +37,7 @@ const layers = PLAYERS.map((player, index) => {
   year.style.left = `${index / Math.max(1, PLAYERS.length - 1) * 100}%`;
   year.textContent = YEARS[index];
   $('years').append(year);
-  return { layer, image, overlay, year };
+  return { layer, overlay, year };
 });
 
 function formatTime(seconds) {
@@ -59,7 +53,7 @@ function message(text = '') {
 
 function preloadAssets() {
   if (!assetsReady) {
-    assetsReady = Promise.all(PLAYERS.flatMap(player => [player.playing, player.paused]).map(src => {
+    assetsReady = Promise.all(PLAYERS.map(player => player.image).map(src => {
       const image = new Image();
       image.src = src;
       return image.decode();
@@ -90,10 +84,7 @@ function render() {
     next.layer.style.transform = transformStyle(incoming);
   }
   visibleLayers.forEach(layer => {
-    const index = layers.indexOf(layer);
-    const source = playing ? PLAYERS[index].playing : PLAYERS[index].paused;
-    if (layer.image.getAttribute('src') !== source) layer.image.src = source;
-    layer.overlay.update(audio.currentTime, audio.duration);
+    layer.overlay.update(audio.currentTime, audio.duration, playing);
   });
 
   const caption = frame.blend >= 0.5 ? frame.next : frame.index;

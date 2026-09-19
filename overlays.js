@@ -1,86 +1,96 @@
-/* Screenshot coordinates are in the original 1536 × 1024 canvas.
- * The SVG lives inside the image layer, so scaling and morphing stay aligned.
- * Patches hide baked-in clocks and knobs; no source images are modified.
- */
+/* Native screenshot coordinates. Source files remain untouched; SVG covers only
+ * playback fields. Historical library artwork remains as background context. */
 const PLAYER_OVERLAYS = [
   {
-    id: '01-winamp-2', color: '#79e526', font: 'monospace',
-    patches: [[482,266,181,52,'#030805'], [389,389,584,23,'#10141b']],
-    titles: [[698,272,445,30,23]],
-    clocks: [{box:[490,275,165,36],digital:true}],
-    bar: {box:[400,393,565,15],track:'#090c11',edge:'#444952',fill:'#61702d',thumb:'metal',size:22}
+    id:'01-winamp-2',indicator:true,color:'#00ed00',font:'monospace',
+    patches:[[173,73,55,17,'#000'],[146,74,20,15,'#000'],[236,73,155,12,'#000'],[140,121,250,10,'#22232f'],[138,300,247,15,'#000'],[256,368,93,12,'#000'],[322,382,27,8,'#000']],
+    titles:[[238,74,151,10,7],[140,301,212,10,7]],
+    clocks:[{box:[175,75,45,13],digital:true},{box:[357,301,25,10],kind:'duration',size:7},{box:[258,369,88,10],kind:'summary',size:7},{box:[323,381,26,9],size:7}],
+    bar:{box:[143,125,241,3],track:'#11131c',edge:'#424555',fill:'#363b27',thumb:'metal',size:20,thumbHeight:6},
+    controls:[{box:[152,77,6,9],background:'#000',color:'#00ec00'}]
   },
   {
-    id:'02-winamp-3',color:'#80bdea',font:'monospace',
-    patches:[[329,399,170,58,['#152b39','#071621']], [505,517,682,33,'#051521'], [1190,516,85,34,'#081825']],
-    titles:[[534,416,631,42,27]],
-    clocks:[{box:[339,410,151,39],digital:true},{box:[1196,521,71,25],kind:'duration',size:24}],
-    bar:{box:[520,527,650,13],track:'#020d15',edge:'#34576c',fill:'#248cc3',thumb:'blue',size:21}
+    id:'02-winamp-3',indicator:true,color:'#eee',font:'monospace',
+    patches:[[54,24,46,17,'#000'],[110,23,155,14,'#000'],[17,70,246,11,'#484857']],
+    titles:[[112,24,151,12,7]],clocks:[{box:[55,26,42,13],digital:true}],
+    bar:{box:[20,73,239,4],track:'#15151b',edge:'#929098',fill:'#565363',thumb:'metal',size:24,thumbHeight:7},
+    controls:[{box:[19,27,7,9],background:'#000',color:'#b9efa0'}]
   },
   {
-    id:'03-winamp-5',color:'#68b5ff',font:'monospace',
-    patches:[[303,418,184,66,'#03080b'],[570,507,451,31,'#03080b']],
-    titles:[[581,432,433,36,26]],
-    clocks:[{box:[316,430,151,43],digital:true}],
-    bar:{box:[582,516,426,15],track:'#111c24',edge:'#526779',fill:'#438ec0',thumb:'metal',size:15}
+    id:'03-winamp-5',indicator:true,color:'#b0d5ff',font:'monospace',
+    patches:[[43,53,38,23,['#254575','#264875']],[23,85,267,14,['#173f7b','#07275f']],[9,113,248,10,['#b5becb','#dce0e9']]],
+    titles:[[26,85,263,13,10]],clocks:[{box:[44,56,35,17],digital:true}],
+    bar:{box:[13,116,240,3],track:'#222833',edge:'#82909c',fill:'#838fa0',thumb:'metal',size:22,thumbHeight:6},
+    controls:[{box:[25,62,7,8],background:'#244573',color:'#c9e9ff'}]
   },
   {
-    id:'04-foobar2000',color:'#191919',font:'Tahoma, sans-serif',
-    patches:[[422,230,683,44,['#e5e5e5','#ededed']], [1116,234, 74,34,'#e7e7e7']],
-    titles:[[233,334,467,31,20]],
-    clocks:[{box:[1121,238,65,28],size:21},{box:[1292,334,73,31],size:19,kind:'duration'}],
-    bar:{box:[434,243,660,16],track:['#ccc','#fafafa'],edge:'#929292',fill:'#a8c5e1',thumb:'metal',size:12}
+    id:'04-foobar2000',indicator:true,color:'#111',font:'Tahoma, Arial, sans-serif',
+    patches:[[29,3,644,18,['#515252','#292929']],[545,33,228,18,'#e9e9ee'],[66,126,508,18,'#3097e5'],[7,343,755,20,'#f1f1f1']],
+    titles:[[29,4,640,15,12,'#fff'],[328,127,193,15,12,'#fff']],
+    labels:[{box:[10,346,70,14],text:'Playback',size:12}],
+    clocks:[{box:[193,346,160,14],kind:'summary',size:12},{box:[545,127,28,15],kind:'duration',size:11,color:'#fff'}],
+    bar:{box:[550,39,218,4],track:'#d2d3db',edge:'#a5a6ae',fill:'#b9d0e7',thumb:'metal',size:7,thumbHeight:15},
+    controls:[{box:[31,128,14,14],background:'#3097e5',color:'#fff'}],
+    status:{box:[85,346,90,14],size:12}
   },
   {
-    id:'05-amarok',color:'#1b2633',font:'Tahoma, sans-serif',
-    patches:[[389,859,864,40,'#e0e5e9'],[1260,865,62,30,'#e2e7eb']],
-    titles:[[742,201,405,26,19],[695,409,159,29,18]],
-    clocks:[{box:[1266,867,51,29],size:18},{box:[1340,409, 75,29],size:18,kind:'duration'}],
-    bar:{box:[400,870,844,19],track:['#b9c2cb','#d9dfe4'],edge:'#8995a1',fill:'#709fc9',thumb:'metal',size:16}
+    id:'05-amarok',color:'#111',font:'Arial, sans-serif',
+    patches:[[22,1,870,16,['#668eb4','#577996']],[40,77,274,47,'#688eaf'],[354,348,584,16,['#a6b8c7','#7995ad']],[3,657,570,20,'#efefef'],[749,657,207,20,'#efefef']],
+    titles:[[24,2,864,14,11,'#fff'],[42,79,270,40,12,'#fff'],[369,349,180,14,10,'#fff'],[8,660,551,14,10]],
+    clocks:[{box:[900,349,35,14],kind:'duration',size:10,color:'#fff'},{box:[751,660,41,14],size:10},{box:[917,660,39,14],kind:'remaining',size:10}],
+    bar:{box:[799,665,109,3],track:'#dedede',edge:'#aaa',fill:'#94b8d7',thumb:'metal',size:8,thumbHeight:10},
+    controls:[{box:[379,626,21,19],background:'#ebebeb',color:'#416eab'}]
   },
   {
-    id:'06-rhythmbox',color:'#343d46',font:'Arial, sans-serif',
-    patches:[[393,181,767,49,'#eaeaea'],[140,901,102,30,'#eaeaea']],
-    titles:[[425,513,262,31,19]],
-    labels:[{box:[146,907,91,22],text:'1 song',size:17}],
-    clocks:[{box:[397,208,60,22],size:17,color:'#808890'},{box:[1094,208,61,22],size:17,color:'#808890',kind:'duration'},{box:[1309,513,75,31],kind:'duration',size:18}],
-    bar:{box:[410,193,737,5],track:'#c2c5c7',edge:'#9b9fa1',fill:'#779bbb',thumb:'round',size:20}
+    id:'06-rhythmbox',color:'#111',font:'Arial, sans-serif',
+    patches:[[393,4,486,20,['#dad7cc','#e8e4dd']],[4,104,1272,31,'#ede9e2'],[5,137,1270,17,'#ede9e2'],[169,429,1091,21,'#a3c84b']],
+    titles:[[5,106,1110,24,15],[233,431,230,18,13]],
+    labels:[{box:[438,6,400,15],text:'Reproductor de música',size:13}],
+    clocks:[{box:[1118,107,151,22],kind:'summary',size:12},{box:[1181,431,73,18],kind:'duration',size:13}],
+    bar:{box:[16,142,1247,4],track:'#c5bfb3',edge:'#918b80',fill:'#9fbc62',thumb:'metal',size:19,thumbHeight:10},
+    controls:[{box:[24,52,31,28],background:['#efede6','#e7e3dc'],color:'#83a52c'}]
   },
   {
-    id:'07-itunes-7',color:'#262c1c',font:'Arial, sans-serif',
-    patches:[[487,141,562,61,['#edf0d9','#d9dfbd']]],
-    titles:[[511,144,515,30,18],[406,249,235,25,16]],
-    clocks:[{box:[500,177,53,23],size:15},{box:[983,177, 59,23],size:15,kind:'remaining'},{box:[699,249,51,25],size:16,kind:'duration'}],
-    bar:{box:[565,184,408,10],track:'#e5e9cf',edge:'#646956',fill:'#a4af86',thumb:'diamond',size:11}
+    id:'07-itunes-7',color:'#222',font:'Arial, sans-serif',
+    patches:[[346,24,411,28,['#fafbed','#e5e8d3']],[372,53,368,12,'#e1e5ce']],
+    titles:[[352,25,399,24,12]],
+    clocks:[{box:[373,53,32,12],size:10},{box:[700,53,40,12],size:10,kind:'remaining'}],
+    bar:{box:[411,56,281,5],track:'#e7ead8',edge:'#64675a',fill:'#7d8370',thumb:'diamond',size:5},
+    controls:[{box:[72,35,15,19],background:['#e6e6e6','#c6c6c6'],color:'#444'}]
   },
   {
-    id:'08-itunes-10',color:'#24281e',font:'Arial, sans-serif',
-    patches:[[515,133,505,58,['#eff1e3','#e1e5ce']],[654,903,300,26,['#c6c6c6','#b5b5b5']]],
-    titles:[[534,134,468,29,17],[384,234,264,25,16]],
-    clocks:[{box:[532,168, 51,23],size:14},{box:[951,168, 61,23],size:14,kind:'remaining'},{box:[692,234,47,25],size:15,kind:'duration'}],
-    labels:[{box:[667,907,280,22],text:'1 song',size:14}],
-    bar:{box:[594,176,346,7],track:'#c7cbb8',edge:'#989c89',fill:'#949e7b',thumb:'diamond',size:12}
+    id:'08-itunes-10',color:'#343c2e',font:'Arial, sans-serif',
+    patches:[[306,14,334,35,['#eff1e4','#e0eac5']]],
+    titles:[[324,15,298,15,11]],
+    clocks:[{box:[311,32,32,12],size:9},{box:[602,32,33,12],size:9,kind:'remaining'}],
+    bar:{box:[349,37,247,3],track:'#d2dac1',edge:'#919b7f',fill:'#747f66',thumb:'diamond',size:4},
+    controls:[{box:[82,22,18,21],background:['#e7e7e7','#bfbfbf'],color:'#555'}]
   },
   {
-    id:'09-itunes-12',color:'#505050',font:'Arial, sans-serif',
-    patches:[[454,108,627,55,['#f0f0f0','#e7e7e7']]],
-    titles:[[521,111,491,26,17],[390,249,209,26,16]],
-    clocks:[{box:[460,144, 42,19],size:12},{box:[1038,144,41,19],size:12,kind:'remaining'},{box:[682,249,44,26],size:15,kind:'duration'}],
-    bar:{box:[507,152,525,6],track:'#c5c5c5',fill:'#8d8d8d',thumb:'round',size:10}
+    id:'09-itunes-12',color:'#4b4b4b',font:'Arial, sans-serif',
+    patches:[[574,3,744,83,['#f2f2f2','#d9d9d9']]],
+    titles:[[600,9,692,36,23]],
+    clocks:[{box:[587,57,69,25],size:17},{box:[1235,57,76,25],kind:'remaining',size:17}],
+    bar:{box:[668,65,554,4],track:'#bcbcbc',fill:'#757575',thumb:'circle',size:7},
+    controls:[{box:[232,19,54,52],background:['#ededed','#dbdbdb'],color:'#484848'}]
   },
   {
-    id:'10-apple-music',color:'#4f4f52',font:'Arial, sans-serif',
-    patches:[[700,162,375,17,'#f5f5f5']],
-    titles:[[706,130,359,25,16]],
-    clocks:[{box:[703,162,40,18],size:12},{box:[1035,162,38,18],size:12,kind:'duration'}],
-    bar:{box:[750,168,276,4],track:'#d4d4d6',fill:'#868689',thumb:'round',size:8}
+    id:'10-apple-music',color:'#4b4b4b',font:'Arial, sans-serif',
+    patches:[[357,77,348,48,'#fff'],[713,118,359,8,'#fff']],
+    titles:[[415,82,283,22,14]],
+    labels:[{box:[366,82,29,36],text:'♪',size:30}],
+    clocks:[{box:[416,106,89,15],size:11},{box:[604,106,92,15],kind:'remaining',size:11}],
+    bar:{box:[716,121,352,3],track:'#dedede',fill:'#777',thumb:'circle',size:4},
+    controls:[{box:[880,83,24,30],background:'#fff',color:'#505050'}]
   },
   {
-    id:'11-spotify',color:'#eee',font:'Arial, sans-serif',
-    patches:[[449,884,636,24,'#191919']],
-    titles:[[251,827,320,30,19]],
-    clocks:[{box:[455,885, 45,21],size:14,color:'#aaa'},{box:[1037,885,45,21],size:14,color:'#aaa',kind:'duration'}],
-    bar:{box:[512,892,513,5],track:'#494949',fill:'#b8b8b8',thumb:'round',size:11}
+    id:'11-spotify',color:'#fff',font:'Arial, sans-serif',
+    patches:[[15,695,59,60,'#292929'],[84,704,136,39,'#191919'],[386,738,594,21,'#191919']],
+    titles:[[88,706,128,19,13]],
+    labels:[{box:[29,704,33,43],text:'♪',size:31}],
+    clocks:[{box:[389,739,32,17],size:11,color:'#aaa'},{box:[950,739,35,17],size:11,color:'#aaa',kind:'duration'}],
+    bar:{box:[426,746,515,4],track:'#515151',fill:'#b3b3b3',thumb:'circle',size:4},
+    controls:[{box:[675,704,17,17],background:'#fff',color:'#111'},{box:[281,380,21,23],background:'#1cba54',color:'#fff'}]
   }
 ];
 
@@ -95,7 +105,8 @@ function overlayClock(seconds, padded = false) {
   return `${String(Math.floor(value / 60)).padStart(padded ? 2 : 1, '0')}:${String(value % 60).padStart(2, '0')}`;
 }
 
-function createPlayerOverlay(playerId) {
+function createPlayerOverlay(player) {
+  const playerId = player.id;
   const config = PLAYER_OVERLAYS.find(item => item.id === playerId);
   const ns = 'http://www.w3.org/2000/svg';
   const el = (name, attrs = {}, parent) => {
@@ -104,7 +115,8 @@ function createPlayerOverlay(playerId) {
     if (parent) parent.append(node);
     return node;
   };
-  const svg = el('svg', {viewBox:'0 0 1536 1024',class:'player-overlay','aria-hidden':'true',focusable:'false','data-player':playerId});
+  const svg = el('svg', {viewBox:player.crop.join(' '),class:'player-overlay','aria-hidden':'true',focusable:'false','data-player':playerId});
+  el('image', {href:player.image,x:0,y:0,width:player.dimensions[0],height:player.dimensions[1]}, svg);
   const defs = el('defs', {}, svg);
   let sequence = 0;
   function paint(color) {
@@ -125,7 +137,7 @@ function createPlayerOverlay(playerId) {
     return el('text',{x:align==='middle'?x+width/2:x,y:y+height/2,'dominant-baseline':'central','font-size':size,'font-family':config.font,fill:color,'text-anchor':align,'clip-path':`url(#${id})`},svg);
   }
   config.patches.forEach(([x,y,w,h,color])=>rect([x,y,w,h],{fill:paint(color)}));
-  const titles = config.titles.map(([x,y,w,h,size])=>textBox([x,y,w,h],size));
+  const titles = config.titles.map(([x,y,w,h,size,color])=>textBox([x,y,w,h],size,color));
   (config.labels || []).forEach(label=>{textBox(label.box,label.size).textContent=label.text;});
   const clocks = config.clocks.map(clock=>({config:clock,node:clock.digital?el('g',{'data-clock':clock.kind || 'elapsed'},svg):textBox(clock.box,clock.size,clock.color || config.color)}));
   const bar = config.bar;
@@ -134,16 +146,30 @@ function createPlayerOverlay(playerId) {
   const fill = rect([x,y,0,height],{rx:height/3,fill:bar.fill,class:'overlay-progress'});
   const thumb = el('g',{class:'overlay-thumb'},svg);
   const size = bar.size;
+  const thumbHeight = bar.thumbHeight || height + 4;
   if (bar.thumb === 'diamond') {
     el('path',{d:`M 0 ${-size/2} L ${size/2} 0 L 0 ${size/2} L ${-size/2} 0 Z`,fill:paint(['#fff','#aab0ad']),stroke:bar.edge || '#666'},thumb);
   } else if (bar.thumb === 'metal') {
-    rect([-size/2,-height/2-4,size,height+8],{rx:2,fill:paint(['#fafafa','#a8afb6','#e7e8e8']),stroke:'#727b83','stroke-width':1.5},thumb);
-    el('path',{d:`M ${-size/2+2} ${height/2+2} V ${-height/2-2} H ${size/2-2}`,fill:'none',stroke:'#fff'},thumb);
+    rect([-size/2,-thumbHeight/2,size,thumbHeight],{rx:1,fill:paint(['#fafafa','#a8afb6','#e7e8e8']),stroke:'#727b83','stroke-width':.7},thumb);
   } else {
-    el('circle',{r:size/2,fill:bar.thumb==='blue'?paint(['#e1f6ff','#46b5ff','#066bb2']):paint(config.color==='#eee'?['#ddd','#aaa']:['#fff','#d1d5d7']),stroke:bar.edge || bar.fill,'stroke-width':1.5},thumb);
+    el('circle',{r:size/2,fill:bar.thumb==='blue'?paint(['#e1f6ff','#46b5ff','#066bb2']):paint(config.color==='#eee'?['#ddd','#aaa']:['#fff','#d1d5d7']),stroke:bar.edge || bar.fill,'stroke-width':.5},thumb);
   }
+  const controls = (config.controls || []).map(control => {
+    const [cx,cy,cw,ch] = control.box;
+    rect(control.box,{fill:paint(control.background)});
+    const icon = el('path',{fill:control.color,transform:`translate(${cx} ${cy}) scale(${cw/12} ${ch/12})`},svg);
+    return icon;
+  });
+  const status = config.status ? textBox(config.status.box,config.status.size) : null;
+  let lastPlaying;
   let lastClock = '';
-  function update(currentTime,duration) {
+  function update(currentTime,duration,playing = false) {
+    if (playing !== lastPlaying) {
+      lastPlaying = playing;
+      svg.dataset.playing = String(playing);
+      controls.forEach(icon => icon.setAttribute('d',(config.indicator ? !playing : playing) ? 'M 2 1 H 5 V 11 H 2 Z M 7 1 H 10 V 11 H 7 Z' : 'M 2 1 L 11 6 L 2 11 Z'));
+      if (status) status.textContent = playing ? 'Playing' : 'Paused';
+    }
     const state = overlayPlayback(currentTime,duration);
     fill.setAttribute('width',String(width*state.progress));
     thumb.setAttribute('transform',`translate(${x+width*state.progress} ${y+height/2})`);
@@ -153,7 +179,7 @@ function createPlayerOverlay(playerId) {
     lastClock = signature;
     clocks.forEach(({config:clock,node})=>{
       const kind = clock.kind || 'elapsed';
-      const value = (kind==='remaining'?'-':'') + overlayClock(state[kind],clock.digital);
+      const value = kind === 'summary' ? `${overlayClock(state.elapsed)} / ${overlayClock(state.duration)}` : (kind==='remaining'?'-':'') + overlayClock(state[kind],clock.digital);
       node.dataset.value = value;
       if (clock.digital) drawDigital(node,value,clock.box,config.color,el);
       else node.textContent = value;
