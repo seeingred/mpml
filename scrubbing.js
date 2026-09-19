@@ -10,6 +10,7 @@ function attachScrubbing(audio, slider, resume, preview, events = window) {
     if (active) return;
     active = true;
     shouldResume = shouldResume || (!audio.paused && !audio.ended);
+    audio.beginScrub?.();
     audio.pause();
   }
   function resumeWhenReady() {
@@ -19,6 +20,7 @@ function attachScrubbing(audio, slider, resume, preview, events = window) {
   }
   function finish() {
     pointer = keyboard = active = false;
+    audio.finishScrub?.();
     resumeWhenReady();
   }
   slider.addEventListener('pointerdown', event => {
@@ -53,6 +55,7 @@ function attachScrubbing(audio, slider, resume, preview, events = window) {
 
   return function cancel() {
     active = pointer = keyboard = shouldResume = false;
+    audio.cancelScrub?.();
   };
 }
 

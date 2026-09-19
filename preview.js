@@ -1,5 +1,11 @@
 const $ = id => document.getElementById(id);
 const audio = $('audio');
+const media = new Playback();
+media.use(audio);
+let youtubeMedia;
+let youtubePlayer;
+let youtubeReadyTimer;
+let youtubeCheck;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let objectURL;
 let frameRequest;
@@ -67,13 +73,13 @@ function preloadAssets() {
 }
 
 function render() {
-  const frame = timelineFrame(audio.currentTime, audio.duration, PLAYERS.length, reducedMotion.matches);
-  const playing = !audio.paused && !audio.ended;
+  const frame = timelineFrame(media.currentTime, media.duration, PLAYERS.length, reducedMotion.matches);
+  const playing = !media.paused && !media.ended;
   const current = layers[frame.index];
   const next = layers[frame.next];
   for (const previous of visibleLayers) previous.layer.style.opacity = '0';
   visibleLayers = frame.blend > 0 ? [current, next] : [current];
-  // Opaque outgoing layer prevents white flashing during a crossfade.
+  // Opaque outgoing layer prevents the page showing through a crossfade.
   current.layer.style.opacity = '1';
   current.layer.style.zIndex = '1';
   const outgoing = morphTransform(WINDOW_BOUNDS[frame.index], WINDOW_BOUNDS[frame.next], frame.blend);
@@ -85,7 +91,7 @@ function render() {
     next.layer.style.transform = transformStyle(incoming);
   }
   visibleLayers.forEach(layer => {
-    layer.overlay.update(audio.currentTime, audio.duration, playing);
+    layer.overlay.update(media.currentTime, media.duration, playing);
   });
 
   const caption = frame.blend >= 0.5 ? frame.next : frame.index;
@@ -96,12 +102,13 @@ function render() {
     $('stage').setAttribute('aria-label', PLAYERS[caption].name);
     layers.forEach((layer, index) => layer.year.classList.toggle('active', index === caption));
   }
-  $('elapsed').textContent = formatTime(audio.currentTime);
-  $('duration').textContent = formatTime(audio.duration);
+  $('elapsed').textContent = formatTime(media.currentTime);
+  $('duration').textContent = formatTime(media.duration);
+  $('seek').disabled = !Number.isFinite(media.duration) || media.duration <= 0;
   $('seek').value = String(Math.round(frame.progress * 1000));
   $('seek').style.setProperty('--progress', `${frame.progress * 100}%`);
-  $('seek').setAttribute('aria-valuetext', `${formatTime(audio.currentTime)} of ${formatTime(audio.duration)}, ${PLAYERS[caption].name}`);
-  $('toggle').setAttribute('aria-label', audio.ended ? 'Replay' : playing ? 'Pause' : 'Play');
+  $('seek').setAttribute('aria-valuetext', `${formatTime(media.currentTime)} of ${formatTime(media.duration)}, ${PLAYERS[caption].name}`);
+  $('toggle').setAttribute('aria-label', media.ended ? 'Replay' : playing ? 'Pause' : 'Play');
   $('toggle').firstElementChild.textContent = playing ? 'Ⅱ' : '▶';
 }
 
@@ -111,7 +118,7 @@ function transformStyle({ x, y, scaleX, scaleY }) {
 
 function tick() {
   render();
-  if (!audio.paused && !audio.ended) frameRequest = requestAnimationFrame(tick);
+  if (!media.paused && !media.ended) frameRequest = requestAnimationFrame(tick);
 }
 
 function stopFrames() {
@@ -126,14 +133,14 @@ async function play() {
   try {
     await preloadAssets();
     if (request !== selection) return;
-    if (audio.ended) audio.currentTime = 0;
-    await audio.play();
+    if (media.ended) media.currentTime = 0;
+    await media.play();
     message();
   } catch (error) {
     if (request === selection) message(demoSelected ? 'Could not start the demo. Press Play demo to try again, or choose a song.' : 'Could not start playback. Try another audio file or press Play again.');
   } finally {
     if (request === selection) {
-      $('start').disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
+      $('start').disabled = !Number.isFinite(media.duration) || media.duration <= 0;
       $('demo').disabled = false;
     }
   }
@@ -142,10 +149,13 @@ async function play() {
 function selectSong(src, title, label, isDemo) {
   selection++;
   cancelScrubbing();
-  audio.pause();
+  media.pause();
+  destroyYouTube();
+  media.use(audio);
   started = false;
   demoSelected = isDemo;
   $('setup').hidden = false;
+  $('experience').hidden = true;
   $('journey').hidden = true;
   $('start').hidden = isDemo;
   $('start').disabled = true;
@@ -174,32 +184,34 @@ $('demo').addEventListener('click', () => {
 });
 
 $('start').addEventListener('click', play);
-$('toggle').addEventListener('click', () => audio.paused ? play() : audio.pause());
-const cancelScrubbing = attachScrubbing(audio, $('seek'), play, render);
-audio.addEventListener('loadedmetadata', () => {
-  $('start').disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
-  if ($('start').disabled) message('This file has no usable duration. Please choose another song.');
+$('toggle').addEventListener('click', () => media.paused ? play() : media.pause());
+const cancelScrubbing = attachScrubbing(media, $('seek'), play, render);
+media.addEventListener('loadedmetadata', () => {
+  $('start').disabled = !Number.isFinite(media.duration) || media.duration <= 0;
+  if (media.source === audio && $('start').disabled) message('This file has no usable duration. Please choose another song.');
   render();
 });
-audio.addEventListener('play', () => {
+media.addEventListener('play', () => {
   const firstPlay = !started;
   started = true;
   $('setup').hidden = true;
+  $('experience').hidden = false;
   $('journey').hidden = false;
   cancelAnimationFrame(frameRequest);
   tick();
-  if (firstPlay) $('toggle').focus({ preventScroll: true });
+  if (firstPlay && media.source === audio) $('toggle').focus({ preventScroll: true });
 });
-audio.addEventListener('pause', stopFrames);
-audio.addEventListener('ended', stopFrames);
-audio.addEventListener('timeupdate', render);
-audio.addEventListener('seeking', render);
-audio.addEventListener('seeked', render);
-audio.addEventListener('error', () => {
+media.addEventListener('pause', stopFrames);
+media.addEventListener('ended', stopFrames);
+media.addEventListener('timeupdate', render);
+media.addEventListener('seeking', render);
+media.addEventListener('seeked', render);
+media.addEventListener('error', () => {
   cancelScrubbing();
-  audio.pause();
+  media.pause();
   started = false;
   $('setup').hidden = false;
+  $('experience').hidden = true;
   $('journey').hidden = true;
   $('start').disabled = true;
   $('demo').disabled = false;
@@ -208,11 +220,152 @@ audio.addEventListener('error', () => {
 reducedMotion.addEventListener('change', render);
 document.addEventListener('visibilitychange', () => {
   cancelAnimationFrame(frameRequest);
-  if (document.hidden || audio.paused) render();
+  if (document.hidden && youtubeMedia) {
+    cancelScrubbing();
+    media.pause();
+  }
+  if (document.hidden || media.paused) render();
   else tick();
 });
 document.addEventListener('keydown', event => {
   if (!started || event.code !== 'Space' || ['INPUT', 'BUTTON'].includes(event.target.tagName)) return;
   event.preventDefault();
-  if (audio.paused) play(); else audio.pause();
+  if (media.paused) play(); else media.pause();
 });
+
+
+function destroyYouTube() {
+  youtubeCheck?.abort();
+  youtubeCheck = null;
+  clearTimeout(youtubeReadyTimer);
+  if (youtubeMedia) youtubeMedia.destroy();
+  else youtubePlayer?.destroy();
+  youtubeMedia = youtubePlayer = null;
+  $('youtube-host').replaceChildren();
+  $('youtube-panel').hidden = true;
+  $('experience').classList.remove('with-youtube');
+}
+
+function resetYouTube() {
+  selection++;
+  cancelScrubbing();
+  media.pause();
+  destroyYouTube();
+  media.use(audio);
+  started = false;
+  cancelAnimationFrame(frameRequest);
+  $('experience').hidden = true;
+  $('journey').hidden = true;
+  $('setup').hidden = false;
+  $('start').hidden = true;
+  $('filename').hidden = true;
+  $('youtube-submit').disabled = false;
+  $('demo').disabled = false;
+  render();
+}
+
+$('youtube-option').addEventListener('click', () => {
+  const open = $('youtube-form').hidden;
+  $('youtube-form').hidden = !open;
+  $('youtube-option').setAttribute('aria-expanded', String(open));
+  message();
+  if (open) $('youtube-url').focus();
+});
+$('youtube-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const id = youtubeVideoId($('youtube-url').value);
+  if (!id) {
+    message('Paste a YouTube video link, such as youtube.com/watch?v=… or youtu.be/…');
+    $('youtube-url').focus();
+    return;
+  }
+  resetYouTube();
+  const request = selection;
+  $('youtube-submit').disabled = true;
+  message('Checking video…');
+  try {
+    const check = new AbortController();
+    youtubeCheck = check;
+    const timeout = setTimeout(() => check.abort(), 12000);
+    let metadata;
+    try {
+      metadata = await checkYouTubeVideo(id, check.signal);
+    } finally {
+      clearTimeout(timeout);
+    }
+    if (request !== selection) return;
+    message('Preparing video…');
+    const [YT] = await Promise.all([loadYouTubeAPI(), preloadAssets()]);
+    if (request !== selection) return;
+    // Cue without playing while the initial screen remains visible.
+    $('experience').classList.add('with-youtube');
+    $('playing-credit').hidden = true;
+    layers.forEach(layer => layer.overlay.setTitle(metadata.title));
+    const mount = document.createElement('div');
+    $('youtube-host').append(mount);
+    const fail = text => {
+      if (request !== selection) return;
+      resetYouTube();
+      message(text);
+    };
+    let revealed = false;
+    youtubeReadyTimer = setTimeout(() => fail('YouTube did not respond. Try again or choose a local song.'), 20000);
+    youtubePlayer = new YT.Player(mount, {
+      width: '200', height: '200',
+      playerVars: {playsinline: 1, controls: 1, origin: window.location.origin},
+      events: {
+        onReady: event => {
+          if (request !== selection) return;
+          youtubeMedia = new YouTubeMedia(event.target);
+          media.use(youtubeMedia);
+          youtubeMedia.addEventListener('titlechange', () => {
+            if (request === selection) layers.forEach(layer => layer.overlay.setTitle(youtubeMedia.title));
+          });
+          event.target.cueVideoById(id);
+        },
+        onStateChange: event => {
+          if (request !== selection || !youtubeMedia) return;
+          youtubeMedia.stateChanged(event.data);
+          if (event.data === 5 && !revealed) {
+            revealed = true;
+            clearTimeout(youtubeReadyTimer);
+            $('setup').hidden = true;
+            $('experience').hidden = false;
+            $('journey').hidden = false;
+            $('youtube-panel').hidden = false;
+            started = true;
+            render();
+            message('Press play in the YouTube player.');
+            $('youtube-submit').disabled = false;
+            if (youtubeVisible()) event.target.playVideo();
+          }
+          if (event.data === 1) message();
+        },
+        onError: event => fail(youtubeError(event.data)),
+        onAutoplayBlocked: () => {
+          if (request === selection) message('Press play in the YouTube player.');
+        }
+      }
+    });
+  } catch (error) {
+    if (request === selection) {
+      resetYouTube();
+      message(error.name === 'AbortError' ? 'YouTube took too long to check this video. Try again.' : error instanceof TypeError ? 'Could not check this video. Check your connection or try another link.' : error.message || 'YouTube could not load. Try again or choose a local song.');
+    }
+  }
+});
+
+function youtubeVisible() {
+  const rect = $('youtube-host').getBoundingClientRect();
+  const visibleWidth = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+  const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+  return !document.hidden && rect.width * rect.height > 0 && visibleWidth * visibleHeight / (rect.width * rect.height) >= 0.5;
+}
+
+// Keep YouTube playback tied to a visible video, including on small screens.
+new IntersectionObserver(entries => {
+  if (youtubeMedia && entries[0].intersectionRatio < 0.5 && !media.paused) {
+    cancelScrubbing();
+    media.pause();
+  }
+}, {threshold: 0.5}).observe($('youtube-host'));
