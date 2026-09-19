@@ -285,8 +285,7 @@ const PLAYERS = [
       910.0
     ],
     "source": "Owner-provided screenshot, September 19, 2026",
-    "original": "Screenshot 2026-09-19 at 23.05.35.png",
-    "note": "Spotify for macOS, captured by the site owner on September 19, 2026. Original 3354 × 2166 screenshot; exact app version not recorded."
+    "note": "Spotify for macOS (Apple Silicon) 1.3.1.234, captured by the site owner on September 19, 2026. Original 3354 × 2166 screenshot."
   }
 ];
 if (typeof module !== 'undefined') module.exports = { PLAYERS };

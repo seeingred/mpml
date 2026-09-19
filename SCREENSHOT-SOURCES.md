@@ -17,7 +17,7 @@ The timeline years describe the remembered journey and were deliberately kept as
 | iTunes 12 | 1892 × 1018 | [Source](https://www.versionmuseum.com/history-of/itunes-app) · [Original image](https://www.versionmuseum.com/images/applications/itunes-app/itunes-app%5E2014%5Eitunes-12-music-library-visible-sidebar.jpg) | iTunes 12, 2014; Version Museum attributes the screenshot to Intego / Kirk McElhearn. |
 | Apple Music | 1548 × 972 | [Source](https://kirkville.com/the-fate-of-the-itunes-store-in-macos-catalina/) · [Original image](https://i0.wp.com/kirkville.com/wp-content/uploads/2019/08/music-app.jpg?ssl=1) | Catalina Music, 2019, Kirk McElhearn article; desktop and dock cropped by SVG. |
 | Spotify | 1366 × 768 | [Source](https://newsroom.spotify.com/2021-03-25/introducing-a-new-spotify-experience-across-desktop-app-and-web-player/) · [Original image](https://storage.googleapis.com/pr-newsroom-wp/1/2021/03/After-downloaded-music-Playlist-2.png) | Official Spotify 2021 desktop redesign, one year later than the timeline label. |
-| Spotify · 2026 | 3354 × 2166 | Site owner, September 19, 2026; `Screenshot 2026-09-19 at 23.05.35.png` | Spotify for macOS, original full-resolution capture. Exact app version not recorded. Live SVG replaces playback title, elapsed/total time, progress, and play/pause icons. |
+| Spotify · 2026 | 3354 × 2166 | Site owner, September 19, 2026 | Spotify for macOS (Apple Silicon) 1.3.1.234, original full-resolution capture. Live SVG replaces playback title, elapsed/total time, progress, and play/pause icons. |
 
 ## License notes
 
