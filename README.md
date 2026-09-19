@@ -1,3 +1,5 @@
+[Open Music, over time](https://seeingred.github.io/mpml/)
+
 # Music, over time
 
 Choose a local song, paste a YouTube video link, or play the bundled Chaoz Fantasy demo and move through twelve desktop music players as it plays.
