@@ -1,26 +1,54 @@
-# Music player journey — image asset pack
+# My music player journey
 
-11 designs, each with a playing and paused PNG. Rhythmbox can be reused for the Ubuntu and Arch chapters. iTunes has three representative looks: Leopard-era iTunes 7, iTunes 10, and iTunes 12.
+A minimal, local music experience: choose a song, press Play, and travel through eleven desktop music player interfaces.
 
-## Open the preview
-Open index.html in a browser. No build or server is required. Select a local audio file, type a title and artist, and click the playback control on a player. The native audio controls also work. Preview state switches only the image.
+## Live site
 
-## Assets
-Each image is a 1536 × 1024 PNG on a white background. Filenames end in -playing.png or -paused.png. Playing generally shows the pause action; paused shows the play action. Track titles, artist names, album art and song rows have been left blank.
+Published at [seeingred.github.io/mpml](https://seeingred.github.io/mpml/). GitHub Pages serves the root of `main`; pushing to `main` updates the site. `.nojekyll` keeps the HTML, CSS, JavaScript, and images as plain static files. Songs are still selected locally and never uploaded.
 
-These are AI-generated recreations, not original screenshots or pixel-perfect historical replicas. They may contain altered UI details and small differences between states. Winamp in particular is stylized. For a production page with completely stable geometry, use one image as the background and draw the play/pause icon, timer and progress bar in HTML/CSS over it.
+## Run
 
-## Add your own song
-The preview uses local file selection and never uploads audio. For a published page, replace the file-selection workflow with an audio source you control, for example:
-<audio id="audio" src="my-song.mp3" controls></audio>
+Open `index.html` in a browser, or serve this directory with `python3 -m http.server 8766 --bind localhost` and open `http://localhost:8766`.
 
-Only publish audio you have permission to share. HTML/CSS can draw the page; a small amount of JavaScript synchronizes playback with the image state. See preview.js for that wiring.
+No build, dependencies, accounts or uploads. The chosen file stays in your browser.
 
-players.js contains the asset paths and approximate percentage positions of the click targets and metadata overlays. preview.css positions them relative to the complete image canvas. Adjust these coordinates if you crop or replace assets.
+## Playback
 
-The preview has a single audio element, so switching player skins keeps the current song and playback position. The baked-in 00:00 labels do not track real playback; use the native audio controls or add an HTML timer overlay.
+- Only the song picker appears initially. Selecting a file reveals Play.
+- Eleven player landmarks are evenly spaced from the start to the end of the song, in the remembered player order.
+- Every interval continuously morphs into the next player: the window bounds reshape together while the two images blend. Both geometry and opacity come directly from the audio position, not a separate timer.
+- The thin timeline seeks the song and the player together, forward or backward.
+- Pausing freezes the current position and morph and uses the paused player images.
+- At the end, Replay returns to Winamp 2. Reload the page to choose another song.
+- Space toggles playback. The timeline supports standard range-input keyboard controls. Reduced-motion preferences show the nearest player without warping or blending.
 
-## Generation
-Created with the built-in image_gen tool. prompts.json contains the design prompts. Paused versions were generated as edits of the respective playing image, requesting preservation of geometry and blank metadata.
+Year labels use approximate eras with the owner's corrections: Rhythmbox 2008, Leopard-era iTunes 2010, and iTunes 10 in 2011. Edit `YEARS` in `preview.js` to change them.
 
-No audio files are included. No deployment is performed.
+## Files
+
+- `index.html`: song picker and minimal playback view.
+- `preview.css`: responsive layout and timeline styling.
+- `preview.js`: file selection, audio controls, and rendering.
+- `timeline.js`: pure audio-time-to-player mapping and window morph geometry.
+- `players.js`: eleven player definitions and image paths.
+- `overlays.js`: per-player SVG masks, live titles, clocks, and progress bars.
+- `assets/`: 22 PNGs, one playing and one paused image per player.
+- `prompts.json`: image generation prompts.
+
+Run the timeline and overlay tests with `node --test tests/*.test.js`.
+
+## Images
+
+Images are AI-generated recreations, not original screenshots or exact historical replicas. Each is 1536 × 1024 with a white background. Some interface details and paired-image alignment are approximate; Winamp is particularly stylized. The filename is overlaid as the song title. The original static clocks and progress bars are covered with live SVG overlays.
+
+Rhythmbox represents both Ubuntu and Arch. The Mac chapter includes three representative iTunes interfaces before Apple Music and Spotify. No audio is bundled.
+
+### Live screenshot overlays
+
+`overlays.js` maps each player to a transparent SVG in the same 1536 × 1024 coordinate system as its screenshot. Small matching background patches cover the baked-in clocks and seek knobs; live clocks, progress fills, slider thumbs, and song titles are drawn above them. Winamp clocks use seven-segment SVG numerals. The title currently comes from the selected filename without its extension (embedded audio tags are not parsed).
+
+The overlay is a child of its player layer, so it follows exactly the same morph transform and opacity. Both visible players show the same full-song position from the audio element. No independent animation timer is used. Pause, seek, and replay therefore update the artwork and overlays together. These are display overlays; the timeline below remains the playback control.
+
+To calibrate a replacement screenshot, edit that player's `PLAYER_OVERLAYS` entry: `patches` cover static artwork, `titles` and `clocks` specify text bounds, and `bar` defines the track and thumb. Coordinates, colors, and fonts are approximations matched to these generated images.
+
+Run the focused checks with `node --test tests/*.test.js`.

@@ -1,21 +1,42 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>My music player journey — asset preview</title><link rel="stylesheet" href="preview.css"></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My music player journey</title>
+  <link rel="stylesheet" href="preview.css">
+  <script src="players.js" defer></script>
+  <script src="timeline.js" defer></script>
+  <script src="overlays.js" defer></script>
+  <script src="preview.js" defer></script>
+</head>
 <body>
-<header><p class="eyebrow">A lifetime of pressing play</p><h1>My music player journey</h1><p>Choose a player, add your song, and try its play and pause states.</p></header>
-<main>
-<section class="setup" aria-label="Your song">
-<label>Audio file<input id="file" type="file" accept="audio/*"></label>
-<label>Song title<input id="title" placeholder="Your song title"></label>
-<label>Artist<input id="artist" placeholder="Artist name"></label>
-<p class="hint">Your file stays on your computer. Nothing is uploaded.</p>
-</section>
-<nav id="players" aria-label="Choose a player"></nav>
-<section class="preview" aria-labelledby="player-name">
-<div class="bar"><h2 id="player-name"></h2><div><button id="preview-state" type="button">Preview playing state</button><a id="download" download>Download PNG</a></div></div>
-<div class="stage" id="stage"><img id="skin" width="1536" height="1024" alt=""><div class="metadata" id="metadata"><span id="song-title"></span><small id="song-artist"></small></div><button id="hotspot" aria-label="Play" title="Play"></button></div>
-<div class="audio-row"><audio id="audio" controls preload="metadata"></audio><span id="status" role="status">Choose an audio file to play your song.</span></div>
-</section>
-<p class="footnote">AI-generated recreations, not original screenshots. Blank song fields are live HTML overlays. Both state images have white backgrounds. Historical UI details and pixel alignment are approximate. Rhythmbox represents both Ubuntu and Arch.</p>
-</main><script src="players.js"></script><script src="preview.js"></script>
-</body></html>
+  <main>
+    <section id="setup" class="setup" aria-label="Choose your song">
+      <label class="choose" for="file">Choose a song</label>
+      <input id="file" class="visually-hidden" type="file" accept="audio/*">
+      <p id="filename" class="filename" hidden></p>
+      <button id="start" class="start" type="button" hidden disabled>Play</button>
+    </section>
+
+    <section id="journey" class="journey" aria-label="Music player journey" hidden>
+      <div id="stage" class="stage" role="img" aria-label="Winamp 2"></div>
+      <footer class="transport">
+        <p class="caption"><span id="player-name"></span><span id="player-year"></span></p>
+        <div class="timeline">
+          <div id="ticks" class="ticks" aria-hidden="true"></div>
+          <input id="seek" type="range" min="0" max="1000" step="1" value="0" aria-label="Song position">
+          <div id="years" class="years" aria-hidden="true"></div>
+        </div>
+        <div class="controls">
+          <time id="elapsed">0:00</time>
+          <button id="toggle" class="toggle" type="button" aria-label="Pause"><span aria-hidden="true">Ⅱ</span></button>
+          <time id="duration">0:00</time>
+        </div>
+      </footer>
+    </section>
+    <p id="message" class="message" role="status" hidden></p>
+    <audio id="audio" preload="metadata"></audio>
+  </main>
+</body>
+</html>
