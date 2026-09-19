@@ -57,3 +57,15 @@ button:focus-visible, #seek:focus-visible { outline: 2px solid #777; outline-off
   .year:first-child, .year:last-child, .year.active { visibility: visible; }
   .year.active { z-index: 1; background: white; padding: 0 4px; }
 }
+
+.demo-credit { margin: -10px 0 0; max-width: 320px; text-align: center; color: #777; font-size: 10px; line-height: 1.6; }
+.demo-credit a { color: inherit; text-underline-offset: 3px; }
+.demo-option { margin-top: -10px; color: #999; font-size: 11px; }
+.demo { border: 0; padding: 4px 2px; background: none; color: #888; font-size: inherit; }
+.demo:hover { color: #444; }
+.demo:disabled { opacity: .4; cursor: wait; }
+.playing-credit { max-width: none; margin: 8px 0 0; }
+.journey:has(#playing-credit:not([hidden])) { width: min(1120px, 100%, calc((100svh - 230px) * 1.5)); }
+@media (max-width: 640px) {
+  .journey:has(#playing-credit:not([hidden])) { width: 100%; }
+}

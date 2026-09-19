@@ -6,6 +6,7 @@ let frameRequest;
 let started = false;
 let selection = 0;
 let assetsReady;
+let demoSelected = false;
 let currentCaption = -1;
 let visibleLayers = [];
 
@@ -121,6 +122,7 @@ function stopFrames() {
 async function play() {
   const request = selection;
   $('start').disabled = true;
+  $('demo').disabled = true;
   try {
     await preloadAssets();
     if (request !== selection) return;
@@ -128,30 +130,46 @@ async function play() {
     await audio.play();
     message();
   } catch (error) {
-    message('Could not start playback. Try another audio file or press Play again.');
+    if (request === selection) message(demoSelected ? 'Could not start the demo. Press Play demo to try again, or choose a song.' : 'Could not start playback. Try another audio file or press Play again.');
   } finally {
-    if (request === selection) $('start').disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
+    if (request === selection) {
+      $('start').disabled = !Number.isFinite(audio.duration) || audio.duration <= 0;
+      $('demo').disabled = false;
+    }
   }
+}
+
+function selectSong(src, title, label, isDemo) {
+  selection++;
+  audio.pause();
+  started = false;
+  demoSelected = isDemo;
+  $('setup').hidden = false;
+  $('journey').hidden = true;
+  $('start').hidden = isDemo;
+  $('start').disabled = true;
+  $('demo').disabled = false;
+  $('filename').textContent = label;
+  $('filename').hidden = isDemo;
+  $('playing-credit').hidden = !isDemo;
+  layers.forEach(layer => { layer.overlay.setTitle(title); });
+  if (objectURL) URL.revokeObjectURL(objectURL);
+  objectURL = isDemo ? null : src;
+  audio.src = src;
+  audio.load();
+  message();
 }
 
 $('file').addEventListener('change', () => {
   const file = $('file').files[0];
   if (!file) return;
-  selection++;
-  audio.pause();
-  started = false;
-  $('setup').hidden = false;
-  $('journey').hidden = true;
-  $('start').hidden = false;
-  $('start').disabled = true;
-  $('filename').textContent = file.name;
-  $('filename').hidden = false;
-  layers.forEach(layer => { layer.overlay.setTitle(file.name.replace(/\.[^.]+$/, '')); });
-  if (objectURL) URL.revokeObjectURL(objectURL);
-  objectURL = URL.createObjectURL(file);
-  audio.src = objectURL;
-  audio.load();
-  message();
+  selectSong(URL.createObjectURL(file), file.name.replace(/\.[^.]+$/, ''), file.name, false);
+});
+
+$('demo').addEventListener('click', () => {
+  $('file').value = '';
+  selectSong('assets/audio/paragonx9-chaoz-fantasy.mp3', 'ParagonX9 — Chaoz Fantasy', 'Chaoz Fantasy', true);
+  play();
 });
 
 $('start').addEventListener('click', play);
@@ -186,7 +204,8 @@ audio.addEventListener('error', () => {
   $('setup').hidden = false;
   $('journey').hidden = true;
   $('start').disabled = true;
-  message('This audio file could not be played. Choose another song.');
+  $('demo').disabled = false;
+  message(demoSelected ? 'The demo could not be loaded. Try Play demo again, or choose a song.' : 'This audio file could not be played. Choose another song.');
 });
 reducedMotion.addEventListener('change', render);
 document.addEventListener('visibilitychange', () => {

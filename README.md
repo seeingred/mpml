@@ -1,14 +1,14 @@
 # My music player journey
 
-Choose a local song, press Play, and move through eleven desktop music players as it plays.
+Play the bundled Chaoz Fantasy demo, or choose a local song and move through eleven desktop music players as it plays.
 
 ## Real screenshot version
 
 All eleven players use real screenshots with live SVG overlays fitted to their native coordinates. This version began on `experiment/real-screenshots` and is now published from `main`. The generated-image version remains available in Git history at `6ef9cee`.
 
-Run `python3 -m http.server 8766 --bind localhost` from this directory and open http://localhost:8766. No build or dependencies are needed. The song stays in the browser and is never uploaded.
+Run `python3 -m http.server 8766 --bind localhost` from this directory and open http://localhost:8766. No build or dependencies are needed. User-selected songs stay in the browser and are never uploaded. The demo MP3 is served with the site; it needs no account or external music service. See [MUSIC-CREDITS.md](MUSIC-CREDITS.md) for its attribution and license.
 
-Only the song picker appears initially. Play reveals the player, subtle caption and year timeline. Eleven landmarks are spaced evenly over the song; seeking moves the music, crossfade, and window geometry together. Pausing freezes the transition and updates the embedded playback indicator. Replay returns to Winamp 2. Space toggles playback; reduced motion shows the nearest player without blending.
+The first screen leads with the song picker, followed by a subtle “or play demo” text option. The demo starts in one click. Play reveals the player, subtle caption and year timeline. Eleven landmarks are spaced evenly over the song; seeking moves the music, crossfade, and window geometry together. Pausing freezes the transition and updates the embedded playback indicator. Replay returns to Winamp 2. Space toggles playback; reduced motion shows the nearest player without blending.
 
 The year labels are preserved: 1998, 2002, 2003, 2004, 2006, 2008, 2010, 2011, 2015, 2019, 2020. Screenshot dates may differ. See [SCREENSHOT-SOURCES.md](SCREENSHOT-SOURCES.md) for every original source, version limitation, attribution, and license note.
 

@@ -17,6 +17,7 @@
       <input id="file" class="visually-hidden" type="file" accept="audio/*">
       <p id="filename" class="filename" hidden></p>
       <button id="start" class="start" type="button" hidden disabled>Play</button>
+      <div class="demo-option"><span>or</span> <button id="demo" class="demo" type="button">play demo</button></div>
     </section>
 
     <section id="journey" class="journey" aria-label="Music player journey" hidden>
@@ -33,6 +34,7 @@
           <button id="toggle" class="toggle" type="button" aria-label="Pause"><span aria-hidden="true">Ⅱ</span></button>
           <time id="duration">0:00</time>
         </div>
+        <p id="playing-credit" class="demo-credit playing-credit" hidden>“Chaoz Fantasy” by <a href="https://www.newgrounds.com/audio/listen/85046" target="_blank" rel="noopener noreferrer">ParagonX9</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a></p>
       </footer>
     </section>
     <p id="message" class="message" role="status" hidden></p>
